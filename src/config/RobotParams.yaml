@@ -1,0 +1,12 @@
+#Robot Parameters
+Robot name: ClubBot_Dwy
+wheel_diameter: 0.08
+wheel_base: 0.175
+leftMaxRPM: 107
+rightMaxRPM: 107
+leftTicksPerRotation: 990
+rightTicksPerRotation: 990
+leftForwardPin: 18
+leftBackwardPin: 23
+rightForwardPin: 24
+rightBackwardPin: 25

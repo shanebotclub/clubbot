@@ -1,0 +1,56 @@
+<launch>
+    <rosparam file="$(find clubbot)/src/config/RobotParams.yaml" />
+    <node
+        pkg="rosserial_python"
+        type="serial_node.py"
+        name="arduino_Encoders"
+        args="/dev/ttyUSB0"
+    />
+
+    <node
+        pkg="rosserial_python"
+        type="serial_node.py"
+        name="arduino_Sensors"         
+        args="/dev/ttyUSB1"
+    />
+
+    <remap from="lstate" to="/left_wheel/state"/>
+    <remap from="rstate" to="/right_wheel/state"/>
+    <remap from="lcontrol_effort" to="/left_wheel/control_effort"/>
+    <remap from="rcontrol_effort" to="/right_wheel/control_effort"/>
+    <remap from="lsetpoint" to="/left_wheel/setpoint"/>
+    <remap from="rsetpoint" to="/right_wheel/setpoint"/>
+    <remap from="lpid_enable" to="/left_wheel/pid_enable"/>
+    <remap from="rpid_enable" to="/right_wheel/pid_enable"/>
+
+        <node
+            name="base_control"
+            pkg="clubbot"
+            type="base_controller.py"
+            output="screen"
+        />
+
+        <node
+            name="encoder_publisher"
+            pkg="clubbot"
+            type="encoder_pub.py"
+        />
+
+        <node
+            name="odometry"
+            pkg="clubbot"
+            type="odometry_pub.py"
+        />
+        
+    <node name="left_wheel_pid" pkg="pid" type="controller" ns="left_wheel">
+          <param name="Kp" value="0.4" />
+          <param name="Ki" value="0.14" />
+          <param name="Kd" value="0.0" />
+    </node>
+
+    <node name="right_wheel_pid" pkg="pid" type="controller" ns="right_wheel">
+          <param name="Kp" value="0.4" />
+          <param name="Ki" value="0.14" />
+          <param name="Kd" value="0.0" />
+    </node>
+</launch>
