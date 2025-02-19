@@ -35,41 +35,57 @@ def stop():
     velocity.angular.z = 0.0
     return velocity
 
-def sonarL_callback(msg):
-    sonarL = (int(msg.range))
+sonarL = 0.0
+sonarLM = 0.0
+sonarRM = 0.0
+sonarR = 0.0
 
 
-def sonarLM_callback(msg):
-    sonarLM = (int(msg.range))
+def sonarL_callback(data):
+    sonarL = (data.range)
+    return sonarL
+
+
+def sonarLM_callback(data):
+    sonarLM = data.range
+    return sonarLM
     
 
-def sonarRM_callback(msg):    
-    sonarRM = (int(msg.range))
+def sonarRM_callback(data):    
+    sonarRM = data.range
+    return sonarRM
     
 
-def sonarR_callback(msg):
-    sonarR = (int(msg.range))
+def sonarR_callback(data):
+    sonarR = data.range
+    return sonarR
 
-sonarL = rospy.Subscriber('snr_1', Range, sonarL_callback)
-sonarLM = rospy.Subscriber('snr_2', Range, sonarLM_callback)
-sonarRM = rospy.Subscriber('snr_3', Range, sonarRM_callback)
-sonarR = rospy.Subscriber('snr_4', Range, sonarR_callback)
+
     
 
 
-if __name__ == '__main__':
+def main():
     rospy.init_node('explore4')
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(5)
+
+    rospy.Subscriber('snr_1', Range, sonarL_callback)
+    rospy.Subscriber('snr_2', Range, sonarLM_callback)
+    rospy.Subscriber('snr_3', Range, sonarRM_callback)
+    rospy.Subscriber('snr_4', Range, sonarR_callback)
     
     
     
     while not rospy.is_shutdown():
         
-        
+
         print("sonarL: ", sonarL)
         print("sonarLM: ", sonarLM)
         print("sonarRM: ", sonarRM)
         print("sonarR: ", sonarR)
         
         rate.sleep()
-    
+
+
+if __name__ == '__main__':
+
+    main()
