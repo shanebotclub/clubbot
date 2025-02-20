@@ -5,8 +5,8 @@ from std_msgs.msg import Bool
 import RPi.GPIO as GPIO
 
 GREEN_BUTTON_GPIO = 6
-BLUE_BUTTON_GPIO = 5
-YELLOW_BUTTON_GPIO = 15
+BLUE_BUTTON_GPIO = 19
+YELLOW_BUTTON_GPIO = 26
 RED_BUTTON_GPIO = 4
 
 if __name__ == '__main__':
