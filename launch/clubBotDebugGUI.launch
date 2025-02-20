@@ -1,6 +1,6 @@
 <launch>
 <node name="publisher" pkg="clubbot" type="button_state_publisher.py" output="screen" />
-<node name="subscriber" pkg="clubbot" type="led_actuator.py" />
+<node name="subscriber" pkg="clubbot" type="led_listener.py" />
 <node pkg="rosserial_python" type="serial_node.py" name="Arduino_Encoders" args="/dev/ttyUSB0" />
 <node pkg="rosserial_python" type="serial_node.py" name="Arduino_Sonar_Bumpers" args="/dev/ttyUSB1" />
 <node pkg="clubbot" type="rosDebug.py" name="Debug_GUI" />
