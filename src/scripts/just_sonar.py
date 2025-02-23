@@ -3,15 +3,14 @@
 import rospy
 from sensor_msgs.msg import Range
 
-#sonarLM = 0.0
+sonarLM = 0.0
 
 
 
 def sonar_callback(data):
-    
-    print("Sonar distance:", data.range)
-    #sonarLM = data.range
-    #return sonarLM
+    global sonarLM 
+    sonarLM = data.range
+  
 
 
 
@@ -20,8 +19,8 @@ def main():
     rospy.init_node('just_sonar')
 
     rospy.Subscriber("snr_2", Range, sonar_callback)
-    #sonarLM = rospy.Subscriber("snr_2", Range, sonar_callback)
-    #print("Sonar distance: ", sonarLM)
+    while not rospy.is_shutdown():
+        print("Sonar distance: ", sonarLM)
 
     rospy.spin()
 
