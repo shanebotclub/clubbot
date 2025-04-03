@@ -36,18 +36,18 @@ def stop():
 
 if __name__ == '__main__':
     rospy.init_node('explore3')
-    rate = rospy.Rate(5)
+    rate = rospy.Rate(10)
     drive = rospy.Publisher('cmd_vel', Twist, queue_size=10)
        
     while not rospy.is_shutdown():
     
         # Drive in a square, move forward for 1 seconds, rotate left for half a second ish, and then repeat the process.
         for i in range(4):
-            for i in range(5):
+            for i in range(10):
                 velocity = move_forward()
                 drive.publish(velocity)
                 rate.sleep()
-            for i in range(2):
+            for i in range(4):
                 velocity = turn_left()
                 drive.publish(velocity)
                 rate.sleep()
