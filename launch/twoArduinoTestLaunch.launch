@@ -1,4 +1,0 @@
-<launch>
-<node pkg="rosserial_python" type="serial_node.py" name="Arduino_Encoders" args="/dev/ttyUSB0" />
-<node pkg="rosserial_python" type="serial_node.py" name="Arduino_Sonar_Bumpers" args="/dev/ttyUSB1" />
-</launch>
