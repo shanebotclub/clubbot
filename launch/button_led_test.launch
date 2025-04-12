@@ -1,4 +1,4 @@
 <launch>
-    <node name="publisher" pkg="clubbot_button_led_test" type="button_state_publisher.py" output="screen" />
-    <node name="subscriber" pkg="clubbot_button_led_test" type="led_actuator.py" />
+<node name="publisher" pkg="clubbot" type="button_state_publisher.py" output="screen" />
+<node name="subscriber" pkg="clubbot" type="led_listener.py" />
 </launch>

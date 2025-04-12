@@ -3,16 +3,10 @@
     <node
         pkg="rosserial_python"
         type="serial_node.py"
-        name="arduino_Encoders"
+        name="AllSensorsROSserial"
         args="/dev/ttyUSB0"
     />
 
-    <node
-        pkg="rosserial_python"
-        type="serial_node.py"
-        name="arduino_Sensors"         
-        args="/dev/ttyUSB1"
-    />
 
     <remap from="lstate" to="/left_wheel/state"/>
     <remap from="rstate" to="/right_wheel/state"/>
