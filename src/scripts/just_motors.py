@@ -8,28 +8,28 @@ from geometry_msgs.msg import Twist
 # by publishing velocity commands to the 'cmd_vel' topic
 # The robot will move forward, backward, turn left, turn right, or stop
 # depending on the function called
-def move_forward():
+def move_forward(speed):
     velocity = Twist()
-    velocity.linear.x = 0.5
+    velocity.linear.x = speed
     velocity.angular.z = 0.0
     return velocity
 
-def move_backward():
+def move_backward(speed):
     velocity = Twist()
-    velocity.linear.x = -0.5
+    velocity.linear.x = -speed
     velocity.angular.z = 0.0
     return velocity    
 
-def turn_left():
+def turn_left(speed):
     velocity = Twist()
     velocity.linear.x = 0.0
-    velocity.angular.z = 1.0
+    velocity.angular.z = speed
     return velocity
 
-def turn_right():
+def turn_right(speed):
     velocity = Twist()
     velocity.linear.x = 0.0
-    velocity.angular.z = -1.0
+    velocity.angular.z = -speed
     return velocity
 
 def stop():
@@ -48,9 +48,9 @@ def main():
     drive = rospy.Publisher('cmd_vel', Twist, queue_size=10)
     
     while not rospy.is_shutdown():
-        # set the velocity to move forward
+        # set the velocity to move forward at a speed of 0.5
         # and publish it to the 'cmd_vel' topic
-        velocity = move_forward()
+        velocity = move_forward(0.5)
         drive.publish(velocity)
         rate.sleep()
 
