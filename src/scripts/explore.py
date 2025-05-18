@@ -60,7 +60,7 @@ def main():
                 break
         for i in range(len(sonar_sorted)):
             if sonar_sorted[1] == sonars[i]:
-                sonar_sorted_names.insert(1, sonar_names)[i]
+                sonar_sorted_names.insert(1, sonar_names[i])
                 sonar_sorted_names.pop(i)
                 break
         for i in range(len(sonar_sorted)):
