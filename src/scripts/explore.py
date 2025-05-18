@@ -6,7 +6,7 @@ from sensor_msgs.msg import Range
 from std_msgs.msg import Bool
 
 # set up variables for bumpers
-LF_bumper = True
+LF_bumper = False
 MF_bumper = False
 RF_bumper = False
 
@@ -55,19 +55,23 @@ def main():
         sonar_sorted.sort()
         for i in range(len(sonar_sorted)):
             if sonar_sorted[0] == sonars[i]:
-                sonar_sorted_names.insert(0, sonar_sorted_names.pop(i))
+                sonar_sorted_names.insert(0, sonar_names[i])
+                sonar_sorted_names.pop(i)
                 break
         for i in range(len(sonar_sorted)):
             if sonar_sorted[1] == sonars[i]:
-                sonar_sorted_names.insert(1, sonar_sorted_names.pop(i))
+                sonar_sorted_names.insert(1, sonar_names)[i]
+                sonar_sorted_names.pop(i)
                 break
         for i in range(len(sonar_sorted)):
             if sonar_sorted[2] == sonars[i]:
-                sonar_sorted_names.insert(2, sonar_sorted_names.pop(i))
+                sonar_sorted_names.insert(2, sonar_names[i])
+                sonar_sorted_names.pop(i)
                 break
         for i in range(len(sonar_sorted)):
             if sonar_sorted[3] == sonars[i]:
-                sonar_sorted_names.insert(3, sonar_sorted_names.pop(i))
+                sonar_sorted_names.insert(3, sonar_names[i])
+                sonar_sorted_names.pop(i)
                 break
         print("sorted sonars: ", sonar_sorted)
         print("sorted sonar names: ", sonar_sorted_names)
