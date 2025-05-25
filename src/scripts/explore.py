@@ -20,7 +20,7 @@ sonarLM = 0.0
 sonarR = 0.0
 sonarRM = 0.0
 
-turn_velocity = 0.04
+turn_velocity = 0.1
 forward_velocity = 0.2
 
 
@@ -72,21 +72,26 @@ def main():
         if sonarsSorted[0]['value'] < 40:
             if sonarsSorted[3]['sonar'] == 'sonarL':
                 velocity = turn_left(turn_velocity)
+                drive.publish(velocity)
                 
             elif sonarsSorted[3]['sonar'] == 'sonarR':
                 velocity = turn_right(turn_velocity)
+                drive.publish(velocity)
                 
             elif sonarsSorted[3]['sonar'] == 'sonarLM':
                 velocity = turn_left(turn_velocity)
+                drive.publish(velocity)
                 
             elif sonarsSorted[3]['sonar'] == 'sonarRM':
                 velocity = turn_right(turn_velocity)
+                drive.publish(velocity)
                 
         
         else:
-            velocity = move_forward(forward_velocity)
+            velocity = stop()
+            drive.publish(velocity)
 
-        drive.publish(velocity)
+        
 
     
 
