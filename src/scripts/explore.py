@@ -33,7 +33,7 @@ def main():
     rate = rospy.Rate(10)
 
     # Create a publisher to send velocity commands to the robot
-    drive = rospy.Publisher('cmd_vel', Twist, queue_size=10)
+    drive = rospy.Publisher('cmd_vel', Twist, queue_size=1)
 
     # Subscribe to sonar and bumper sensors
     lSonar()
