@@ -20,6 +20,9 @@ sonarLM = 0.0
 sonarR = 0.0
 sonarRM = 0.0
 
+turn_velocity = 0.1
+
+
 
 def main():
     # Initialize the ROS node
@@ -45,45 +48,46 @@ def main():
     right_back_bumper()
 
     while not rospy.is_shutdown():
-        sonars = [sonarL, sonarLM, sonarR, sonarRM]
-        sonar_names = ['sonarL', 'sonarLM', 'sonarR', 'sonarRM']
-        print("unsorted sonars: ", sonars)
-        print("unsorted sonar names: ", sonar_names)
-        # Sort the sonars and sonar names based on the sonar values
-        sonar_sorted = sonars
-        sonar_sorted_names = sonar_names
-        sonar_sorted.sort()
-        for i in range(len(sonar_sorted)):
-            if sonar_sorted[0] == sonars[i]:
-                sonar_sorted_names.insert(0, sonar_names[i])
-                sonar_sorted_names.pop(i)
-                break
-        for i in range(len(sonar_sorted)):
-            if sonar_sorted[1] == sonars[i]:
-                sonar_sorted_names.insert(1, sonar_names[i])
-                sonar_sorted_names.pop(i)
-                break
-        for i in range(len(sonar_sorted)):
-            if sonar_sorted[2] == sonars[i]:
-                sonar_sorted_names.insert(2, sonar_names[i])
-                sonar_sorted_names.pop(i)
-                break
-        for i in range(len(sonar_sorted)):
-            if sonar_sorted[3] == sonars[i]:
-                sonar_sorted_names.insert(3, sonar_names[i])
-                sonar_sorted_names.pop(i)
-                break
-        print("sorted sonars: ", sonar_sorted)
-        print("sorted sonar names: ", sonar_sorted_names)
-         
-       
+        
+        # make dictionary of sonar values and sort them from lowest to highest
+        def func(input):
+            return input['value'] 
+        sonarsDict = [{'sonar': 'sonarL', 'value': sonarL}, {'sonar': 'sonarLM', 'value': sonarLM}, {'sonar': 'sonarR', 'value': sonarR}, {'sonar': 'sonarRM', 'value': sonarRM}]
+        print("raw sonar: ", sonarsDict)
+        
+        # replace 0 values with 9999
+        for sonar in range(len(sonarsDict)):
+            if sonarsDict[sonar]['value'] == 0:
+                sonarsDict[sonar]['value'] = 9999
+        print("sonar no zeros: ", sonarsDict)
+        
+        sonarsSorted = sonarsDict
+        sonarsSorted.sort(key=func)
+        print("sonar sorted: ", sonarsSorted)
+        #print('\n', sonarsSorted)
+        #print(sonarsSorted[0]['value'])
+        #print(sonarsSorted[0]['sonar'])
 
+        if sonarsSorted[0]['value'] < 40:
+            if sonarsSorted[3]['sonar'] == 'sonarL':
+                velocity = turn_left(turn_velocity)
+                
+            elif sonarsSorted[3]['sonar'] == 'sonarR':
+                velocity = turn_right(turn_velocity)
+                
+            elif sonarsSorted[3]['sonar'] == 'sonarLM':
+                velocity = turn_left(turn_velocity)
+                
+            elif sonarsSorted[3]['sonar'] == 'sonarRM':
+                velocity = turn_right(turn_velocity)
+                
+        
+        else:
+            velocity = move_forward(0.3)
 
-                    
+        drive.publish(velocity)
 
-
-       
-
+    
 
        
 
@@ -197,7 +201,9 @@ def middle_back_bumper():
 def right_back_bumper():
     rospy.Subscriber("bpr_rb", Bool, RB_bumper_callback)
 
+
 if __name__ == '__main__':
     main()
-    rospy.spin()
     
+    rospy.spin()
+   
