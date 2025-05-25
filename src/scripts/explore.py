@@ -53,17 +53,17 @@ def main():
         def func(input):
             return input['value'] 
         sonarsDict = [{'sonar': 'sonarL', 'value': sonarL}, {'sonar': 'sonarLM', 'value': sonarLM}, {'sonar': 'sonarR', 'value': sonarR}, {'sonar': 'sonarRM', 'value': sonarRM}]
-        print("raw sonar: ", sonarsDict)
+        #print("raw sonar: ", sonarsDict)
         
         # replace 0 values with 9999
         for sonar in range(len(sonarsDict)):
             if sonarsDict[sonar]['value'] == 0:
                 sonarsDict[sonar]['value'] = 9999
-        print("sonar no zeros: ", sonarsDict)
+        #print("sonar no zeros: ", sonarsDict)
         
         sonarsSorted = sonarsDict
         sonarsSorted.sort(key=func)
-        print("sonar sorted: ", sonarsSorted)
+        #print("sonar sorted: ", sonarsSorted)
         #print('\n', sonarsSorted)
         #print(sonarsSorted[0]['value'])
         #print(sonarsSorted[0]['sonar'])
@@ -83,7 +83,7 @@ def main():
                 
         
         else:
-            velocity = move_forward(0.3)
+            velocity = move_forward(0.4)
 
         drive.publish(velocity)
 
