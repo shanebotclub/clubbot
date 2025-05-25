@@ -21,6 +21,7 @@ sonarR = 0.0
 sonarRM = 0.0
 
 turn_velocity = 0.04
+forward_velocity = 0.2
 
 
 
@@ -83,7 +84,7 @@ def main():
                 
         
         else:
-            velocity = move_forward(0.16)
+            velocity = move_forward(forward_velocity)
 
         drive.publish(velocity)
 
