@@ -88,7 +88,7 @@ def main():
                 
         
         else:
-            velocity = stop()
+            velocity = move_forward(forward_velocity)
             drive.publish(velocity)
 
         
