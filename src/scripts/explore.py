@@ -54,7 +54,7 @@ def main():
         def func(input):
             return input['value'] 
         sonarsDict = [{'sonar': 'sonarL', 'value': sonarL}, {'sonar': 'sonarLM', 'value': sonarLM}, {'sonar': 'sonarR', 'value': sonarR}, {'sonar': 'sonarRM', 'value': sonarRM}]
-        #print("raw sonar: ", sonarsDict)
+        print("raw sonar: ", sonarsDict)
         
         # replace 0 values with 9999
         for sonar in range(len(sonarsDict)):
@@ -64,7 +64,7 @@ def main():
         
         sonarsSorted = sonarsDict
         sonarsSorted.sort(key=func)
-        #print("sonar sorted: ", sonarsSorted)
+        print("sonar sorted: ", sonarsSorted)
         #print('\n', sonarsSorted)
         #print(sonarsSorted[0]['value'])
         #print(sonarsSorted[0]['sonar'])
@@ -87,13 +87,20 @@ def main():
                 drive.publish(velocity)
                 
         
+        # stop if any bumper is pressed
+        elif LF_bumper or MF_bumper or RF_bumper or LB_bumper or MB_bumper or RB_bumper:
+            velocity = stop()
+            drive.publish(velocity)
+            rospy.loginfo("Bumper pressed, stopping robot")
+            break
+
+
+        # if no bumpers are pressed and no sonar is too close, move forward 
         else:
             velocity = move_forward(forward_velocity)
             drive.publish(velocity)
-
-        
-
     
+   
 
        
 
@@ -210,6 +217,7 @@ def right_back_bumper():
 
 if __name__ == '__main__':
     main()
+    # Keep the node running until it is shut down
     
     rospy.spin()
    
