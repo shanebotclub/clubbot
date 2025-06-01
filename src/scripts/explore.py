@@ -22,6 +22,7 @@ sonarRM = 0.0
 
 turn_velocity = 0.1
 forward_velocity = 0.2
+move = True
 
 
 
@@ -49,56 +50,58 @@ def main():
     right_back_bumper()
 
     while not rospy.is_shutdown():
-        
-        # make dictionary of sonar values and sort them from lowest to highest
-        def func(input):
-            return input['value'] 
-        sonarsDict = [{'sonar': 'sonarL', 'value': sonarL}, {'sonar': 'sonarLM', 'value': sonarLM}, {'sonar': 'sonarR', 'value': sonarR}, {'sonar': 'sonarRM', 'value': sonarRM}]
-        print("raw sonar: ", sonarsDict)
-        
-        # replace 0 values with 9999
-        for sonar in range(len(sonarsDict)):
-            if sonarsDict[sonar]['value'] == 0:
-                sonarsDict[sonar]['value'] = 9999
-        #print("sonar no zeros: ", sonarsDict)
-        
-        sonarsSorted = sonarsDict
-        sonarsSorted.sort(key=func)
-        print("sonar sorted: ", sonarsSorted)
-        #print('\n', sonarsSorted)
-        #print(sonarsSorted[0]['value'])
-        #print(sonarsSorted[0]['sonar'])
 
-        if sonarsSorted[0]['value'] < 40:
-            if sonarsSorted[3]['sonar'] == 'sonarL':
-                velocity = turn_left(turn_velocity)
-                drive.publish(velocity)
-                
-            elif sonarsSorted[3]['sonar'] == 'sonarR':
-                velocity = turn_right(turn_velocity)
-                drive.publish(velocity)
-                
-            elif sonarsSorted[3]['sonar'] == 'sonarLM':
-                velocity = turn_left(turn_velocity)
-                drive.publish(velocity)
-                
-            elif sonarsSorted[3]['sonar'] == 'sonarRM':
-                velocity = turn_right(turn_velocity)
-                drive.publish(velocity)
-                
+        while move:
         
-        # stop if any bumper is pressed
-        elif LF_bumper or MF_bumper or RF_bumper or LB_bumper or MB_bumper or RB_bumper:
-            velocity = stop()
-            drive.publish(velocity)
-            rospy.loginfo("Bumper pressed, stopping robot")
-            break
+            # make dictionary of sonar values and sort them from lowest to highest
+            def func(input):
+                return input['value'] 
+            sonarsDict = [{'sonar': 'sonarL', 'value': sonarL}, {'sonar': 'sonarLM', 'value': sonarLM}, {'sonar': 'sonarR', 'value': sonarR}, {'sonar': 'sonarRM', 'value': sonarRM}]
+            print("raw sonar: ", sonarsDict)
+            
+            # replace 0 values with 9999
+            for sonar in range(len(sonarsDict)):
+                if sonarsDict[sonar]['value'] == 0:
+                    sonarsDict[sonar]['value'] = 9999
+            #print("sonar no zeros: ", sonarsDict)
+            
+            sonarsSorted = sonarsDict
+            sonarsSorted.sort(key=func)
+            print("sonar sorted: ", sonarsSorted)
+            #print('\n', sonarsSorted)
+            #print(sonarsSorted[0]['value'])
+            #print(sonarsSorted[0]['sonar'])
+
+            if sonarsSorted[0]['value'] < 40:
+                if sonarsSorted[3]['sonar'] == 'sonarL':
+                    velocity = turn_left(turn_velocity)
+                    drive.publish(velocity)
+                    
+                elif sonarsSorted[3]['sonar'] == 'sonarR':
+                    velocity = turn_right(turn_velocity)
+                    drive.publish(velocity)
+                    
+                elif sonarsSorted[3]['sonar'] == 'sonarLM':
+                    velocity = turn_left(turn_velocity)
+                    drive.publish(velocity)
+                    
+                elif sonarsSorted[3]['sonar'] == 'sonarRM':
+                    velocity = turn_right(turn_velocity)
+                    drive.publish(velocity)
+                    
+            
+            # stop if any bumper is pressed
+            elif LF_bumper or MF_bumper or RF_bumper or LB_bumper or MB_bumper or RB_bumper:
+                velocity = stop()
+                drive.publish(velocity)
+                rospy.loginfo("Bumper pressed, stopping robot")
+                move = False
 
 
-        # if no bumpers are pressed and no sonar is too close, move forward 
-        else:
-            velocity = move_forward(forward_velocity)
-            drive.publish(velocity)
+            # if no bumpers are pressed and no sonar is too close, move forward 
+            else:
+                velocity = move_forward(forward_velocity)
+                drive.publish(velocity)
     
    
 
