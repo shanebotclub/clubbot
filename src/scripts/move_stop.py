@@ -26,6 +26,7 @@ def drive_robot(linear_speed, angular_speed):
 def LF_bumper_callback(data):
     global LF_bumper
     LF_bumper = data.data
+    move = False
 
 def MF_bumper_callback(data):
     global MF_bumper
