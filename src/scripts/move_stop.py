@@ -91,9 +91,6 @@ def main():
     
     while not rospy.is_shutdown():
 
-        if LF_bumper or MF_bumper or RF_bumper or LB_bumper or MB_bumper or RB_bumper:
-            print("bumper pressed, stopping robot")
-            move = False
 
         if move == False:
             print("robot stopped")
