@@ -40,6 +40,10 @@ def main():
         drive.publish(velocity)  # Publish the stop command
         print("robot stopped")
         rate.sleep()
+    
+    velocity = drive_robot(0.0, 0.0)  # Stop the robot
+    drive.publish(velocity)  # Publish the stop command
+    print("rospy shut down robot stopped")
 
 if __name__ == '__main__':
     try:
