@@ -13,6 +13,7 @@ def drive_robot(linear_speed, angular_speed):
     return velocity
 
 def main():
+    global linear_speed, angular_speed
     # Initialize the ROS node
     rospy.init_node('move_stop')
     
