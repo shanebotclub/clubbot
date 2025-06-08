@@ -21,17 +21,18 @@ sonarR = 0.0
 sonarRM = 0.0
 
 turn_velocity = 0.1
-forward_velocity = 0.2
+forward_velocity = 0.4
 move = True
 
 
 
 def main():
+    global move
     # Initialize the ROS node
     rospy.init_node('explore')
 
     # Set the rate at which to publish messages
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(1)
 
     # Create a publisher to send velocity commands to the robot
     drive = rospy.Publisher('cmd_vel', Twist, queue_size=1)
@@ -96,12 +97,16 @@ def main():
                 drive.publish(velocity)
                 rospy.loginfo("Bumper pressed, stopping robot")
                 move = False
+                rate.sleep()
 
 
             # if no bumpers are pressed and no sonar is too close, move forward 
             else:
                 velocity = move_forward(forward_velocity)
                 drive.publish(velocity)
+        
+        
+        
     
    
 
