@@ -110,6 +110,7 @@ def main():
             # Publish the velocity command
             drive.publish(velocity)
         
+        print("move:", move)
        
 
         
