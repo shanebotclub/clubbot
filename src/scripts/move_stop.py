@@ -24,6 +24,7 @@ def drive_robot(linear_speed, angular_speed):
 
 # define callback functions for each bumper
 def LF_bumper_callback(data):
+    global move
     global LF_bumper
     LF_bumper = data.data
     move = False
@@ -90,6 +91,7 @@ def main():
     rate = rospy.Rate(1)
     
     while not rospy.is_shutdown():
+
 
 
         if move == False:
