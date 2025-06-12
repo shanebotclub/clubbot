@@ -4,7 +4,7 @@ import rospy
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Bool
 
-move = True
+move = False
 
 LF_bumper = False
 MF_bumper = False
@@ -38,8 +38,10 @@ def RF_bumper_callback(data):
     RF_bumper = data.data
 
 def LB_bumper_callback(data):
+    global move
     global LB_bumper
     LB_bumper = data.data
+    move = True
 
 def MB_bumper_callback(data):
     global MB_bumper
