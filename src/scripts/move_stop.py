@@ -100,7 +100,7 @@ def main():
             print("robot stopped")
             velocity = drive_robot(0.0, 0.0)
             drive.publish(velocity)
-            rate.sleep()
+            #rate.sleep()
             
         # Get the velocity command for driving the robot
        
@@ -111,7 +111,9 @@ def main():
             
             # Publish the velocity command
             drive.publish(velocity)
+            #rate.sleep()
         
+        rate.sleep()
         print("move:", move)
        
 
