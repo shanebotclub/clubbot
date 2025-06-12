@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# Robot will start stopped and move when back bumper is pressed
+# Robot will stop when front bumper is pressed 
+
 import rospy
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Bool
@@ -30,12 +33,16 @@ def LF_bumper_callback(data):
     move = False
 
 def MF_bumper_callback(data):
+    global move
     global MF_bumper
     MF_bumper = data.data
+    move = False
 
 def RF_bumper_callback(data):
+    global move
     global RF_bumper
     RF_bumper = data.data
+    move = False
 
 def LB_bumper_callback(data):
     global move
@@ -44,12 +51,16 @@ def LB_bumper_callback(data):
     move = True
 
 def MB_bumper_callback(data):
+    global move
     global MB_bumper
     MB_bumper = data.data
+    move = True
 
 def RB_bumper_callback(data):
+    global move
     global RB_bumper
     RB_bumper = data.data
+    move = True
 
 
 # define functions to subscribe to each bumper sensor
@@ -90,7 +101,7 @@ def main():
     right_back_bumper()
     
     # Set the rate at which to publish messages
-    rate = rospy.Rate(100)
+    rate = rospy.Rate(20)
     
     while not rospy.is_shutdown():
 
