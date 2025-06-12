@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+
+
 import rospy
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Range
@@ -32,7 +34,7 @@ def main():
     rospy.init_node('explore')
 
     # Set the rate at which to publish messages
-    rate = rospy.Rate(1)
+    rate = rospy.Rate(20)
 
     # Create a publisher to send velocity commands to the robot
     drive = rospy.Publisher('cmd_vel', Twist, queue_size=1)
@@ -104,6 +106,8 @@ def main():
             else:
                 velocity = move_forward(forward_velocity)
                 drive.publish(velocity)
+
+            rate.sleep()
         
         
         
