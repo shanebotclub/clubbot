@@ -90,7 +90,7 @@ def main():
     right_back_bumper()
     
     # Set the rate at which to publish messages
-    rate = rospy.Rate(1)
+    rate = rospy.Rate(100)
     
     while not rospy.is_shutdown():
 
