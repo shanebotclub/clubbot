@@ -38,25 +38,30 @@ def stop():
     velocity.angular.z = 0.0
     return velocity
 
+once = True
+
 
 
 def main():
     # Initialize the ROS node
     rospy.init_node('just_motors')
     # Set the rate at which to publish messages
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(1)
     # Create a publisher to send velocity commands to the robot
-    drive = rospy.Publisher('cmd_vel', Twist, queue_size=10)
+    drive = rospy.Publisher('cmd_vel', Twist, queue_size=1)
     
     
     
-    #while not rospy.is_shutdown():
+    while not rospy.is_shutdown():
         # set the velocity to move forward at a speed of (0.1 - 1.0)
         # and publish it to the 'cmd_vel' topic
-    velocity = move_forward(0.15)
-    drive.publish(velocity)
-    print("Moving forward at speed 0.15")
-    rate.sleep()
+        if once:
+            print("Moving forward at speed 0.15")
+            once = False
+            velocity = move_forward(0.15)
+            drive.publish(velocity)
+        
+        rate.sleep()
    
     
 
