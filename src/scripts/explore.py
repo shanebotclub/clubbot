@@ -23,7 +23,7 @@ sonarR = 0.0
 sonarRM = 0.0
 
 turn_velocity = 0.1
-forward_velocity = 0.4
+forward_velocity = 0.2
 move = True
 
 
@@ -59,7 +59,7 @@ def main():
             # make dictionary of sonar values and sort them from lowest to highest
             def func(input):
                 return input['value'] 
-            sonarsDict = [{'sonar': 'sonarL', 'value': sonarL}, {'sonar': 'sonarLM', 'value': sonarLM}, {'sonar': 'sonarR', 'value': sonarR}, {'sonar': 'sonarRM', 'value': sonarRM}]
+            sonarsDict = [{'sonar': 'sonarL', 'value': sonarL}, {'sonar': 'sonarLM', 'value': sonarLM}, {'sonar': 'sonarRM', 'value': sonarRM}, {'sonar': 'sonarR', 'value': sonarR}]
             print("raw sonar: ", sonarsDict)
             
             # replace 0 values with 9999
@@ -169,16 +169,16 @@ def sonarRM_callback(data):
 
 # define functions to subscribe to each sonar sensor
 def lSonar():
-    rospy.Subscriber("snr_1", Range, sonarLM_callback)
+    rospy.Subscriber("snr_1", Range, sonarL_callback)
     
 def rSonar():
-   rospy.Subscriber("snr_4", Range, sonarRM_callback)
+   rospy.Subscriber("snr_4", Range, sonarR_callback)
    
 def lMiddleSonar():
-    rospy.Subscriber("snr_2", Range, sonarL_callback)
+    rospy.Subscriber("snr_2", Range, sonarLM_callback)
    
 def rMiddleSonar():
-    rospy.Subscriber("snr_3", Range, sonarR_callback)
+    rospy.Subscriber("snr_3", Range, sonarRM_callback)
 
 
 # define callback functions for each bumper sensor
