@@ -38,11 +38,12 @@ def stop():
     velocity.angular.z = 0.0
     return velocity
 
-once = True
+go = 0
 
 
 
 def main():
+    global once
     # Initialize the ROS node
     rospy.init_node('just_motors')
     # Set the rate at which to publish messages
@@ -55,9 +56,10 @@ def main():
     while not rospy.is_shutdown():
         # set the velocity to move forward at a speed of (0.1 - 1.0)
         # and publish it to the 'cmd_vel' topic
-        if once:
+        if go < 2:
             print("Moving forward at speed 0.15")
-            once = False
+            once = go + 1
+            print("go: ", go)
             velocity = move_forward(0.15)
             drive.publish(velocity)
         
