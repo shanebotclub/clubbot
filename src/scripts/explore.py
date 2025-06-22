@@ -58,7 +58,7 @@ def main():
         velocity = Twist()
         velocity.linear.x = linear_speed
         velocity.angular.z = angular_speed
-        rospy.loginfo("Publishing velocity: linear_speed: ", linear_speed)
+        print("drive")
         return velocity
 
     while not rospy.is_shutdown():
