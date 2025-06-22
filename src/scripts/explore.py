@@ -122,6 +122,7 @@ def drive(linear_speed, angular_speed):
     velocity = Twist()
     velocity.linear.x = linear_speed
     velocity.angular.z = angular_speed
+    rospy.loginfo("Publishing velocity: linear_speed: ", linear_speed)
     return velocity
 
 
