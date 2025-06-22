@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-
-
 import rospy
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Range
@@ -21,15 +19,18 @@ sonarL = 0.0
 sonarLM = 0.0
 sonarR = 0.0
 sonarRM = 0.0
-
-turn_velocity = 0.1
-forward_velocity = 0.2
+# set up variables for velocities
+forward_velocity = 0.15
+left_velocity = 0.1
+right_velocity = 0.1
+velocity = 0
 move = True
 
 
 
 def main():
-    global move
+    global move, velocity
+    
     # Initialize the ROS node
     rospy.init_node('explore')
 
@@ -37,7 +38,7 @@ def main():
     rate = rospy.Rate(20)
 
     # Create a publisher to send velocity commands to the robot
-    drive = rospy.Publisher('cmd_vel', Twist, queue_size=1)
+    drive = rospy.Publisher('cmd_vel', Twist, latch=True, queue_size=1)
 
     # Subscribe to sonar and bumper sensors
     lSonar()
@@ -55,12 +56,13 @@ def main():
     while not rospy.is_shutdown():
 
         while move:
+            last_velocity = velocity
         
             # make dictionary of sonar values and sort them from lowest to highest
             def func(input):
                 return input['value'] 
             sonarsDict = [{'sonar': 'sonarL', 'value': sonarL}, {'sonar': 'sonarLM', 'value': sonarLM}, {'sonar': 'sonarRM', 'value': sonarRM}, {'sonar': 'sonarR', 'value': sonarR}]
-            print("raw sonar: ", sonarsDict)
+            #print("raw sonar: ", sonarsDict)
             
             # replace 0 values with 9999
             for sonar in range(len(sonarsDict)):
@@ -77,25 +79,25 @@ def main():
 
             if sonarsSorted[0]['value'] < 40:
                 if sonarsSorted[3]['sonar'] == 'sonarL':
-                    velocity = turn_left(turn_velocity)
-                    drive.publish(velocity)
+                    velocity = drive(0.0, left_velocity)
+                    
                     
                 elif sonarsSorted[3]['sonar'] == 'sonarR':
-                    velocity = turn_right(turn_velocity)
-                    drive.publish(velocity)
+                    velocity = drive(0.0, right_velocity)
+                    
                     
                 elif sonarsSorted[3]['sonar'] == 'sonarLM':
-                    velocity = turn_left(turn_velocity)
-                    drive.publish(velocity)
+                    velocity = drive(0.0, left_velocity,)
+                    
                     
                 elif sonarsSorted[3]['sonar'] == 'sonarRM':
-                    velocity = turn_right(turn_velocity)
-                    drive.publish(velocity)
+                    velocity = drive(0.0, right_velocity)
+                   
                     
             
             # stop if any bumper is pressed
             elif LF_bumper or MF_bumper or RF_bumper or LB_bumper or MB_bumper or RB_bumper:
-                velocity = stop()
+                velocity = drive(0.0, 0.0)
                 drive.publish(velocity)
                 rospy.loginfo("Bumper pressed, stopping robot")
                 move = False
@@ -104,48 +106,22 @@ def main():
 
             # if no bumpers are pressed and no sonar is too close, move forward 
             else:
-                velocity = move_forward(forward_velocity)
+                velocity = drive(forward_velocity, 0.0)
+                
+
+            if last_velocity != velocity:
                 drive.publish(velocity)
 
             rate.sleep()
-        
-        
-        
-    
-   
 
        
 
 
 # define velocity functions for the robot
-def move_forward(speed):
+def drive(linear_speed, angular_speed):
     velocity = Twist()
-    velocity.linear.x = speed
-    velocity.angular.z = 0.0
-    return velocity
-
-def move_backward(speed):
-    velocity = Twist()
-    velocity.linear.x = -speed
-    velocity.angular.z = 0.0
-    return velocity    
-
-def turn_left(speed):
-    velocity = Twist()
-    velocity.linear.x = 0.0
-    velocity.angular.z = speed
-    return velocity
-
-def turn_right(speed):
-    velocity = Twist()
-    velocity.linear.x = 0.0
-    velocity.angular.z = -speed
-    return velocity
-
-def stop():
-    velocity = Twist()
-    velocity.linear.x = 0.0
-    velocity.angular.z = 0.0
+    velocity.linear.x = linear_speed
+    velocity.angular.z = angular_speed
     return velocity
 
 
