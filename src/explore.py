@@ -53,13 +53,7 @@ def main():
     middle_back_bumper()
     right_back_bumper()
 
-    # define velocity functions for the robot
-    def drive(linear_speed, angular_speed):
-        velocity = Twist()
-        velocity.linear.x = linear_speed
-        velocity.angular.z = angular_speed
-        #rospy.loginfo("Publishing velocity: linear_speed: ", linear_speed)
-        return velocity
+   
 
     while not rospy.is_shutdown():
 
@@ -87,19 +81,19 @@ def main():
 
             if sonarsSorted[0]['value'] < 40:
                 if sonarsSorted[3]['sonar'] == 'sonarL':
-                    velocity = drive(0.0, left_velocity)
+                    velocity = drive_robot(0.0, left_velocity)
                     
                     
                 elif sonarsSorted[3]['sonar'] == 'sonarR':
-                    velocity = drive(0.0, right_velocity)
+                    velocity = drive_robot(0.0, right_velocity)
                     
                     
                 elif sonarsSorted[3]['sonar'] == 'sonarLM':
-                    velocity = drive(0.0, left_velocity,)
+                    velocity = drive_robot(0.0, left_velocity,)
                     
                     
                 elif sonarsSorted[3]['sonar'] == 'sonarRM':
-                    velocity = drive(0.0, right_velocity)
+                    velocity = drive_robot(0.0, right_velocity)
                    
                     
             
@@ -114,7 +108,7 @@ def main():
 
             # if no bumpers are pressed and no sonar is too close, move forward 
             else:
-                velocity = drive(forward_velocity, 0.0)
+                velocity = drive_robot(forward_velocity, 0.0)
                 
 
             if last_velocity != velocity:
@@ -126,6 +120,15 @@ def main():
 
 
 
+
+
+ # define velocity functions for the robot
+    def drive_robot(linear_speed, angular_speed):
+        velocity = Twist()
+        velocity.linear.x = linear_speed
+        velocity.angular.z = angular_speed
+        print("drive")
+        return velocity
 
 
 # define callback functions for each sonar sensor
