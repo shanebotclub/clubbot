@@ -21,8 +21,8 @@ sonarR = 0.0
 sonarRM = 0.0
 # set up variables for velocities
 forward_velocity = 0.15
-left_velocity = 0.1
-right_velocity = 0.1
+left_velocity = 0.05
+right_velocity = 0.05
 velocity = 0
 move = True
 
