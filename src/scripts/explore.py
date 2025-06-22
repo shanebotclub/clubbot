@@ -99,11 +99,11 @@ def main():
             
             # stop if any bumper is pressed
             elif LF_bumper or MF_bumper or RF_bumper or LB_bumper or MB_bumper or RB_bumper:
-                velocity = drive(0.0, 0.0)
-                drive.publish(velocity)
+                velocity = drive_robot(0.0, 0.0)
+                #drive.publish(velocity)
                 rospy.loginfo("Bumper pressed, stopping robot")
                 move = False
-                rate.sleep()
+                #rate.sleep()
 
 
             # if no bumpers are pressed and no sonar is too close, move forward 
@@ -113,8 +113,20 @@ def main():
 
             if last_velocity != velocity:
                 drive.publish(velocity)
+                
 
             rate.sleep()
+
+        # if move is False, stop the robot
+        if not move:
+            print("robot stopped")
+            velocity = drive_robot(0.0, 0.0)
+            drive.publish(velocity)
+            rate.sleep()
+            break
+       
+    
+    
 
        
 
