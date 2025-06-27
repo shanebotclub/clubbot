@@ -19,6 +19,7 @@ sonarL = 0.0
 sonarLM = 0.0
 sonarR = 0.0
 sonarRM = 0.0
+
 # set up variables for velocities
 forward_velocity = 0.15
 left_velocity = 0.1
@@ -58,6 +59,7 @@ def main():
     while not rospy.is_shutdown():
 
         while move:
+            # record the last velocity to check if it has changed before publishing (it is best to only publish when the velocity changes)
             last_velocity = velocity
         
             # make dictionary of sonar values and sort them from lowest to highest
@@ -79,6 +81,7 @@ def main():
             #print(sonarsSorted[0]['value'])
             #print(sonarsSorted[0]['sonar'])
 
+            # check if any reading sonar is less than 40 cm if so, turn away from the object
             if sonarsSorted[0]['value'] < 40:
                 if sonarsSorted[3]['sonar'] == 'sonarL':
                     velocity = drive_robot(0.0, left_velocity)
@@ -123,12 +126,12 @@ def main():
 
 
  # define velocity functions for the robot
-    def drive_robot(linear_speed, angular_speed):
-        velocity = Twist()
-        velocity.linear.x = linear_speed
-        velocity.angular.z = angular_speed
-        print("drive")
-        return velocity
+def drive_robot(linear_speed, angular_speed):
+    velocity = Twist()
+    velocity.linear.x = linear_speed
+    velocity.angular.z = angular_speed
+    print("drive")
+    return velocity
 
 
 # define callback functions for each sonar sensor
