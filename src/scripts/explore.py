@@ -58,6 +58,7 @@ def main():
     while not rospy.is_shutdown():
 
         while move:
+            # record the last velocity to check it has changed before publishing (it is best to only publish when the velocity changes)
             last_velocity = velocity
         
             # make dictionary of sonar values and sort them from lowest to highest
