@@ -21,8 +21,8 @@ sonarR = 0.0
 sonarRM = 0.0
 # set up variables for velocities
 forward_velocity = 0.15
-left_velocity = 0.05
-right_velocity = -0.05
+turn_velocity = 0.03
+forward_turn_velocity = 0.03
 velocity = 0
 move = True
 
@@ -82,19 +82,19 @@ def main():
 
             if sonarsSorted[0]['value'] < 40:
                 if sonarsSorted[3]['sonar'] == 'sonarL':
-                    velocity = drive_robot(0.0, left_velocity)
+                    velocity = drive_robot(forward_turn_velocity, turn_velocity)
                     
                     
                 elif sonarsSorted[3]['sonar'] == 'sonarR':
-                    velocity = drive_robot(0.0, right_velocity)
+                    velocity = drive_robot(forward_turn_velocity, -turn_velocity)
                     
                     
                 elif sonarsSorted[3]['sonar'] == 'sonarLM':
-                    velocity = drive_robot(0.0, left_velocity,)
+                    velocity = drive_robot(forward_turn_velocity, turn_velocity,)
                     
                     
                 elif sonarsSorted[3]['sonar'] == 'sonarRM':
-                    velocity = drive_robot(0.0, right_velocity)
+                    velocity = drive_robot(forward_turn_velocity, -turn_velocity)
                    
                     
             
