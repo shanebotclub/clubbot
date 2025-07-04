@@ -100,10 +100,11 @@ def main():
             
             # stop if any bumper is pressed
             elif LF_bumper or MF_bumper or RF_bumper or LB_bumper or MB_bumper or RB_bumper:
-                velocity = drive_robot(0.0, 0.0)
+                reverse_and_turn()
+                #velocity = drive_robot(0.0, 0.0)
                 #drive.publish(velocity)
-                rospy.loginfo("Bumper pressed, stopping robot")
-                move = False
+                #rospy.loginfo("Bumper pressed, stopping robot")
+                #move = False
                 #rate.sleep()
 
 
@@ -220,6 +221,14 @@ def middle_back_bumper():
 
 def right_back_bumper():
     rospy.Subscriber("bpr_rb", Bool, RB_bumper_callback)
+    
+# function to reverse and turn when a bumper is pressed
+def reverse_and_turn():
+    global move, velocity
+    move = False
+    velocity = drive_robot(-0.1, 0.5)  # Reverse and turn
+    rospy.loginfo("Bumper pressed, reversing and turning")
+    return velocity
 
 
 if __name__ == '__main__':
