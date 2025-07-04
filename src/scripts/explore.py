@@ -22,7 +22,7 @@ sonarRM = 0.0
 # set up variables for velocities
 forward_velocity = 0.15
 left_velocity = 0.05
-right_velocity = 0.05
+right_velocity = -0.05
 velocity = 0
 move = True
 
@@ -99,13 +99,20 @@ def main():
                     
             
             # stop if any bumper is pressed
-            elif LF_bumper or MF_bumper or RF_bumper or LB_bumper or MB_bumper or RB_bumper:
-                reverse_and_turn()
-                #velocity = drive_robot(0.0, 0.0)
-                #drive.publish(velocity)
-                #rospy.loginfo("Bumper pressed, stopping robot")
-                #move = False
-                #rate.sleep()
+            elif LF_bumper or MF_bumper:  
+                right_reverse_and_turn()
+                
+                
+            elif RF_bumper:
+                left_reverse_and_turn()
+                
+            # if any back bumper is pressed, stop the robot
+            elif LB_bumper or MB_bumper or RB_bumper:
+                velocity = drive_robot(0.0, 0.0)
+                rospy.loginfo("Back bumper pressed, stopping robot")
+                move = False
+                
+                
 
 
             # if no bumpers are pressed and no sonar is too close, move forward 
@@ -222,12 +229,15 @@ def middle_back_bumper():
 def right_back_bumper():
     rospy.Subscriber("bpr_rb", Bool, RB_bumper_callback)
     
-# function to reverse and turn when a bumper is pressed
-def reverse_and_turn():
+# functions to reverse and turn when a bumper is pressed
+def left_reverse_and_turn():
     global move, velocity
-    move = False
-    velocity = drive_robot(-0.1, 0.5)  # Reverse and turn
-    rospy.loginfo("Bumper pressed, reversing and turning")
+    velocity = drive_robot(-0.1, 0.2)  # Reverse and turn left
+    return velocity
+
+def right_reverse_and_turn():
+    global move, velocity
+    velocity = drive_robot(-0.1, -0.2)  # Reverse and turn right
     return velocity
 
 
