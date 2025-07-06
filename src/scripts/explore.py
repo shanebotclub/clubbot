@@ -83,18 +83,22 @@ def main():
             if sonarsSorted[0]['value'] < 40:
                 if sonarsSorted[3]['sonar'] == 'sonarL':
                     velocity = drive_robot(forward_turn_velocity, turn_velocity)
+                    print("Left Sonar = ", sonarsSorted[3]['value'], "cm, rotate left")
                     
                     
                 elif sonarsSorted[3]['sonar'] == 'sonarR':
                     velocity = drive_robot(forward_turn_velocity, -turn_velocity)
+                    print("Right Sonar = ", sonarsSorted[3]['value'], "cm, rotate right")
                     
                     
                 elif sonarsSorted[3]['sonar'] == 'sonarLM':
                     velocity = drive_robot(forward_turn_velocity, turn_velocity,)
+                    print("Left Middle Sonar = ", sonarsSorted[3]['value'], "cm, rotate left")
                     
                     
                 elif sonarsSorted[3]['sonar'] == 'sonarRM':
                     velocity = drive_robot(forward_turn_velocity, -turn_velocity)
+                    print("Right Middle Sonar = ", sonarsSorted[3]['value'], "cm, rotate right")
                    
                     
             
