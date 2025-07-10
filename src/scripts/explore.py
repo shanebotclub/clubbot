@@ -14,6 +14,9 @@ LB_bumper = False
 MB_bumper = False
 RB_bumper = False
 
+rb_activated = 0
+lb_activated = 0
+
 # set up variables for sonar
 sonarL = 0.0
 sonarLM = 0.0
@@ -81,34 +84,35 @@ def main():
             #print(sonarsSorted[0]['sonar'])
 
             if sonarsSorted[0]['value'] < 40:
-                if sonarsSorted[3]['sonar'] == 'sonarL':
+                if sonarsSorted[0]['sonar'] == 'sonarL':
+                    velocity = drive_robot(forward_turn_velocity, -turn_velocity)
+                    print("Left Sonar = ", sonarsSorted[0]['value'], "cm, rotate right")
+                    
+                    
+                elif sonarsSorted[0]['sonar'] == 'sonarR':
                     velocity = drive_robot(forward_turn_velocity, turn_velocity)
-                    print("Left Sonar = ", sonarsSorted[3]['value'], "cm, rotate left")
+                    print("Right Sonar = ", sonarsSorted[3]['value'], "cm, rotate left")
                     
                     
-                elif sonarsSorted[3]['sonar'] == 'sonarR':
-                    velocity = drive_robot(forward_turn_velocity, -turn_velocity)
-                    print("Right Sonar = ", sonarsSorted[3]['value'], "cm, rotate right")
+                elif sonarsSorted[0]['sonar'] == 'sonarLM':
+                    velocity = drive_robot(forward_turn_velocity, -turn_velocity,)
+                    print("Left Middle Sonar = ", sonarsSorted[0]['value'], "cm, rotate right")
                     
                     
-                elif sonarsSorted[3]['sonar'] == 'sonarLM':
-                    velocity = drive_robot(forward_turn_velocity, turn_velocity,)
-                    print("Left Middle Sonar = ", sonarsSorted[3]['value'], "cm, rotate left")
-                    
-                    
-                elif sonarsSorted[3]['sonar'] == 'sonarRM':
-                    velocity = drive_robot(forward_turn_velocity, -turn_velocity)
-                    print("Right Middle Sonar = ", sonarsSorted[3]['value'], "cm, rotate right")
+                elif sonarsSorted[0]['sonar'] == 'sonarRM':
+                    velocity = drive_robot(forward_turn_velocity, turn_velocity)
+                    print("Right Middle Sonar = ", sonarsSorted[0]['value'], "cm, rotate left")
                    
                     
             
             # stop if any bumper is pressed
             elif LF_bumper or MF_bumper:  
-                right_reverse_and_turn()
+                lb_activated = 8
                 
                 
             elif RF_bumper:
-                left_reverse_and_turn()
+                rb_activated = 8
+                
                 
             # if any back bumper is pressed, stop the robot
             elif LB_bumper or MB_bumper or RB_bumper:
@@ -234,15 +238,22 @@ def right_back_bumper():
     rospy.Subscriber("bpr_rb", Bool, RB_bumper_callback)
     
 # functions to reverse and turn when a bumper is pressed
-def left_reverse_and_turn():
-    global move, velocity
-    velocity = drive_robot(-0.1, 0.2)  # Reverse and turn left
-    return velocity
+def reverse_and_turn():
+    if lb_activated > 1:
+        velocity = drive_robot(-forward_velocity, 0.0)
+        lb_activated -= 1
+    elif rb_activated > 1:
+        velocity = drive_robot(-forward_velocity, 0.0)
+        rb_activated -= 1
+    
+    elif lb_activated == 1:
+        velocity = drive_robot(0.0, turn_velocity)
+        lb_activated = 0
+    elif rb_activated == 1:
+        velocity = drive_robot(0.0, -turn_velocity)
+        rb_activated = 0
+        
 
-def right_reverse_and_turn():
-    global move, velocity
-    velocity = drive_robot(-0.1, -0.2)  # Reverse and turn right
-    return velocity
 
 
 if __name__ == '__main__':
