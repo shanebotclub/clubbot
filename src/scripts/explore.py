@@ -28,11 +28,13 @@ turn_velocity = 0.03
 forward_turn_velocity = 0.03
 velocity = 0
 move = True
+lb_activated = 0
+rb_activated = 0
 
 
 
 def main():
-    global move, velocity
+    global move, velocity, lb_activated, rb_activated
     
     # Initialize the ROS node
     rospy.init_node('explore')
@@ -244,6 +246,7 @@ def right_back_bumper():
     
 # functions to reverse and turn when a bumper is pressed
 def reverse_and_turn():
+    global lb_activated, rb_activated, velocity
     if lb_activated > 1:
         velocity = drive_robot(-forward_velocity, 0.0)
         lb_activated -= 1
