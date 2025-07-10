@@ -120,6 +120,11 @@ def main():
                 rospy.loginfo("Back bumper pressed, stopping robot")
                 move = False
                 
+            elif lb_activated > 0 or rb_activated > 0:
+                reverse_and_turn()
+                
+                
+                
                 
 
 
