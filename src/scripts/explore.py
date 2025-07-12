@@ -124,17 +124,13 @@ def main():
                 
             elif lb_activated > 0 or rb_activated > 0:
                 reverse_and_turn()
-                
-                
-                
-                
-
 
             # if no bumpers are pressed and no sonar is too close, move forward 
             else:
                 velocity = drive_robot(forward_velocity, 0.0)
                 
 
+            # check if the velocity has changed before publishing
             if last_velocity != velocity:
                 drive.publish(velocity)
                 
@@ -247,19 +243,19 @@ def right_back_bumper():
 # functions to reverse and turn when a bumper is pressed
 def reverse_and_turn():
     global lb_activated, rb_activated, velocity
-    if lb_activated > 1:
+    if lb_activated > 4:
         velocity = drive_robot(-forward_velocity, 0.0)
         lb_activated -= 1
-    elif rb_activated > 1:
+    elif rb_activated > 4:
         velocity = drive_robot(-forward_velocity, 0.0)
         rb_activated -= 1
     
-    elif lb_activated == 1:
+    elif lb_activated > 0 and lb_activated <= 3:
         velocity = drive_robot(0.0, turn_velocity)
-        lb_activated = 0
-    elif rb_activated == 1:
+        lb_activated -= 1
+    elif rb_activated > 0 and rb_activated <= 3:
         velocity = drive_robot(0.0, -turn_velocity)
-        rb_activated = 0
+        rb_activated -= 1
         
 
 
