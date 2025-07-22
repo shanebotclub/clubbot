@@ -5,7 +5,7 @@ from std_msgs.msg import Bool
 import RPi.GPIO as GPIO
 
 GREEN_LED_GPIO = 12
-BLUE_LED_GPIO = 16
+BLUE_LED_GPIO = 26
 YELLOW_LED_GPIO = 20
 #RED_LED_GPIO = 14
 
@@ -23,7 +23,7 @@ def y_button_state_callback(msg):
     
 
 if __name__ == '__main__':
-    rospy.init_node('led_actuator')
+    rospy.init_node('led_listiner')
 
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(GREEN_LED_GPIO, GPIO.OUT)
